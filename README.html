@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>AI Dashboard Light</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="ai-dashboard-light">AI Dashboard Light</h1>
+<p>Dashboard fullstack com autenticação JWT, chat com persistência, histórico por conversa e painel de métricas.</p>
+<h2 id="status">Status</h2>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> Fase 1 — Setup</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> Fase 2 — Auth</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> Fase 3 — Chat</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> Fase 4 — Dashboard</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> Fase 5 — Polimento</li>
+</ul>
+<h2 id="etapas-do-projeto">Etapas do Projeto</h2>
+<h3 id="visão-sequencial-das-fases">Visão sequencial das fases</h3>
+<pre><code class="language-mermaid">flowchart LR
+  F1[Fase 1&lt;br/&gt;Setup] --&gt; F2[Fase 2&lt;br/&gt;Auth]
+  F2 --&gt; F3[Fase 3&lt;br/&gt;Chat]
+  F3 --&gt; F4[Fase 4&lt;br/&gt;Dashboard]
+  F4 --&gt; F5[Fase 5&lt;br/&gt;Polimento]
+</code></pre>
+<h3 id="linha-de-execução-por-fase">Linha de execução por fase</h3>
+<pre><code class="language-mermaid">gantt
+  title AI Dashboard Light — Fases de implementação
+  dateFormat  YYYY-MM-DD
+  section Backend/Frontend
+  Fase 1 - Setup             :done, f1, 2026-03-01, 1d
+  Fase 2 - Auth              :done, f2, after f1, 1d
+  Fase 3 - Chat              :done, f3, after f2, 1d
+  Fase 4 - Dashboard         :done, f4, after f3, 1d
+  Fase 5 - Polimento         :done, f5, after f4, 1d
+</code></pre>
+<h3 id="fase-1--setup-concluída">Fase 1 — Setup (concluída)</h3>
+<ul>
+<li>Criação de backend e frontend</li>
+<li>Configuração Prisma + SQLite</li>
+<li>Configuração Tailwind</li>
+<li>Estrutura de pastas obrigatória</li>
+<li>README inicial</li>
+</ul>
+<h3 id="fase-2--auth-concluída">Fase 2 — Auth (concluída)</h3>
+<ul>
+<li>Registro e login</li>
+<li>JWT</li>
+<li>Rotas protegidas</li>
+<li>Persistência de sessão no frontend</li>
+<li>Regras de senha e validação de e-mail</li>
+</ul>
+<h3 id="fase-3--chat-concluída">Fase 3 — Chat (concluída)</h3>
+<ul>
+<li>Tela de chat funcional</li>
+<li>Endpoint de chat com persistência</li>
+<li>Histórico por conversa (thread)</li>
+<li>Envio com Enter e quebra com Shift+Enter</li>
+<li>Respostas simuladas contextuais</li>
+</ul>
+<h3 id="fase-4--dashboard-concluída">Fase 4 — Dashboard (concluída)</h3>
+<ul>
+<li>Cards de total de mensagens e tokens</li>
+<li>Média de tokens por mensagem</li>
+<li>Gráfico de uso em 7 dias</li>
+<li>Layout SaaS integrado</li>
+</ul>
+<h3 id="fase-5--polimento-concluída">Fase 5 — Polimento (concluída)</h3>
+<ul>
+<li>Responsividade desktop/tablet/mobile</li>
+<li>Ajustes de UX e dark mode</li>
+<li>Loading, empty e error states</li>
+<li>Busca e ordenação no histórico</li>
+</ul>
+<h2 id="stack">Stack</h2>
+<h3 id="backend">Backend</h3>
+<ul>
+<li>Node.js</li>
+<li>Fastify</li>
+<li>Prisma ORM</li>
+<li>SQLite</li>
+<li>JWT</li>
+</ul>
+<h3 id="frontend">Frontend</h3>
+<ul>
+<li>Vite + React</li>
+<li>TailwindCSS</li>
+<li>shadcn/ui (base)</li>
+<li>Zustand</li>
+<li>Recharts</li>
+<li>Framer Motion</li>
+</ul>
+<h2 id="arquitetura">Arquitetura</h2>
+<pre><code class="language-mermaid">flowchart LR
+  UI[Frontend React/Vite] --&gt;|HTTP REST| API[Fastify API]
+  API --&gt; AUTH[Auth Service]
+  API --&gt; CHAT[Chat Service]
+  API --&gt; STATS[Stats Service]
+  AUTH --&gt; DB[(SQLite via Prisma)]
+  CHAT --&gt; DB
+  STATS --&gt; DB
+</code></pre>
+<h2 id="fluxo-de-autenticação">Fluxo de autenticação</h2>
+<pre><code class="language-mermaid">sequenceDiagram
+  participant U as Usuário
+  participant F as Frontend
+  participant B as Backend
+  participant D as SQLite
+
+  U-&gt;&gt;F: Cadastro/Login
+  F-&gt;&gt;B: POST /auth/register ou /auth/login
+  B-&gt;&gt;D: Busca/Cria usuário
+  D--&gt;&gt;B: Dados do usuário
+  B--&gt;&gt;F: JWT + user
+  F-&gt;&gt;F: Salva sessão (Zustand + localStorage)
+  F-&gt;&gt;B: GET /auth/me (rota protegida)
+  B--&gt;&gt;F: user validado
+</code></pre>
+<h2 id="fluxo-de-chat">Fluxo de chat</h2>
+<pre><code class="language-mermaid">sequenceDiagram
+  participant U as Usuário
+  participant F as Frontend
+  participant B as Backend
+  participant D as SQLite
+
+  U-&gt;&gt;F: Envia prompt (Enter)
+  F-&gt;&gt;B: POST /chat (JWT)
+  B-&gt;&gt;B: Gera resposta simulada contextual
+  B-&gt;&gt;D: Persiste mensagem com conversationId
+  D--&gt;&gt;B: Registro salvo
+  B--&gt;&gt;F: chat criado
+  F-&gt;&gt;B: GET /chat/history
+  B--&gt;&gt;F: Histórico agrupado por conversa
+</code></pre>
+<h2 id="estrutura-de-pastas">Estrutura de pastas</h2>
+<pre><code class="language-text">backend/
+  prisma/
+    migrations/
+    schema.prisma
+  src/
+    config/
+    controllers/
+    middleware/
+    prisma/
+    routes/
+    services/
+frontend/
+  src/
+    components/
+    hooks/
+    pages/
+    services/
+    store/
+    styles/
+</code></pre>
+<h2 id="pré-requisitos">Pré-requisitos</h2>
+<ul>
+<li>Node.js 20+</li>
+<li>npm 10+</li>
+<li>Linux, macOS ou Windows</li>
+</ul>
+<h2 id="instalação">Instalação</h2>
+<h3 id="1-backend">1) Backend</h3>
+<pre><code class="language-bash"><span class="hljs-built_in">cd</span> backend
+<span class="hljs-built_in">cp</span> .env.example .<span class="hljs-built_in">env</span>
+npm install
+npm run prisma:generate
+npm run prisma:migrate
+</code></pre>
+<h3 id="2-frontend">2) Frontend</h3>
+<pre><code class="language-bash"><span class="hljs-built_in">cd</span> ../frontend
+<span class="hljs-built_in">cp</span> .env.example .<span class="hljs-built_in">env</span>
+npm install
+</code></pre>
+<h2 id="variáveis-de-ambiente">Variáveis de ambiente</h2>
+<h3 id="backendenv"><code>backend/.env</code></h3>
+<pre><code class="language-env">PORT=3333
+DATABASE_URL=&quot;file:./dev.db&quot;
+JWT_SECRET=&quot;dev-local-secret-123456&quot;
+JWT_EXPIRES_IN=&quot;7d&quot;
+CORS_ORIGIN=&quot;http://localhost:5173,http://127.0.0.1:5173&quot;
+</code></pre>
+<h3 id="frontendenv"><code>frontend/.env</code></h3>
+<pre><code class="language-env">VITE_API_URL=&quot;http://localhost:3333&quot;
+</code></pre>
+<p>Observação: se <code>VITE_API_URL</code> não estiver definido, o frontend tenta usar automaticamente <code>http://&lt;host-atual&gt;:3333</code>.</p>
+<h2 id="execução">Execução</h2>
+<h3 id="terminal-1-backend">Terminal 1 (backend)</h3>
+<pre><code class="language-bash"><span class="hljs-built_in">cd</span> backend
+npm run dev
+</code></pre>
+<h3 id="terminal-2-frontend">Terminal 2 (frontend)</h3>
+<pre><code class="language-bash"><span class="hljs-built_in">cd</span> frontend
+npm run dev
+</code></pre>
+<p>Acesse: <code>http://localhost:5173</code></p>
+<h2 id="build">Build</h2>
+<pre><code class="language-bash"><span class="hljs-built_in">cd</span> backend
+npm run prisma:generate
+
+<span class="hljs-built_in">cd</span> ../frontend
+npm run build
+</code></pre>
+<h2 id="endpoints">Endpoints</h2>
+<h3 id="auth">Auth</h3>
+<ul>
+<li><code>POST /auth/register</code></li>
+<li><code>POST /auth/login</code></li>
+<li><code>GET /auth/me</code></li>
+</ul>
+<h3 id="chat">Chat</h3>
+<ul>
+<li><code>POST /chat</code></li>
+<li><code>GET /chat/history</code></li>
+<li><code>GET /chat/:id</code></li>
+<li><code>DELETE /chat/:id</code></li>
+</ul>
+<h3 id="dashboard">Dashboard</h3>
+<ul>
+<li><code>GET /stats</code></li>
+</ul>
+<h2 id="regras-de-autenticação-e-senha">Regras de autenticação e senha</h2>
+<ul>
+<li>E-mail deve ter formato válido</li>
+<li>Parte local do e-mail (antes de <code>@</code>) deve ter pelo menos 3 caracteres</li>
+<li>Senha deve ter:
+<ul>
+<li>mínimo 6 caracteres</li>
+<li>pelo menos 1 caractere especial</li>
+</ul>
+</li>
+</ul>
+<h2 id="funcionalidades-implementadas">Funcionalidades implementadas</h2>
+<h3 id="auth-1">Auth</h3>
+<ul>
+<li>Cadastro</li>
+<li>Login</li>
+<li>Logout</li>
+<li>Rotas protegidas com JWT</li>
+<li>Persistência de sessão no frontend</li>
+</ul>
+<h3 id="chat-1">Chat</h3>
+<ul>
+<li>Prompt com envio por <code>Enter</code></li>
+<li><code>Shift + Enter</code> para quebra de linha</li>
+<li>Resposta simulada contextual por tema</li>
+<li>Persistência por <code>conversationId</code></li>
+<li>Scroll automático</li>
+<li>Loading/error/empty states</li>
+</ul>
+<h3 id="histórico">Histórico</h3>
+<ul>
+<li>Lista por conversa (não por mensagem isolada)</li>
+<li>Visualização detalhada de mensagens por conversa</li>
+<li>Exclusão de conversa</li>
+<li>Busca por título/preview</li>
+<li>Ordenação por recentes, mensagens ou tokens</li>
+</ul>
+<h3 id="dashboard-1">Dashboard</h3>
+<ul>
+<li>Total de mensagens</li>
+<li>Total de tokens</li>
+<li>Média de tokens/mensagem</li>
+<li>Gráfico de uso nos últimos 7 dias</li>
+</ul>
+<h2 id="testes-manuais-sugeridos">Testes manuais sugeridos</h2>
+<ol>
+<li>Registrar usuário novo em <code>/auth</code>.</li>
+<li>Fazer logout e login com o mesmo usuário.</li>
+<li>Testar login inválido (<code>a@gmail.com</code>) e validar erro de regra.</li>
+<li>Enviar prompts em <code>/chat</code> e validar respostas contextuais.</li>
+<li>Validar envio com <code>Enter</code> e quebra com <code>Shift + Enter</code>.</li>
+<li>Criar múltiplas mensagens no mesmo chat e validar agrupamento no <code>/history</code>.</li>
+<li>Usar busca e ordenação no histórico.</li>
+<li>Validar <code>/dashboard</code> com cards e gráfico atualizados.</li>
+<li>Redimensionar a janela (desktop/tablet/mobile) e validar responsividade.</li>
+</ol>
+<h2 id="verificação-rápida-por-curl">Verificação rápida por cURL</h2>
+<pre><code class="language-bash">curl -i http://localhost:3333/health
+curl -i http://localhost:3333/auth/me
+</code></pre>
+<p>Esperado:</p>
+<ul>
+<li><code>GET /health</code> -&gt; <code>200</code></li>
+<li><code>GET /auth/me</code> sem token -&gt; <code>401</code></li>
+</ul>
+<p>Fluxo completo:</p>
+<pre><code class="language-bash">EMAIL=<span class="hljs-string">&quot;qa<span class="hljs-subst">$(date +%s)</span>@gmail.com&quot;</span>
+PASSWORD=<span class="hljs-string">&quot;abcde!1&quot;</span>
+
+REGISTER=$(curl -s -X POST http://localhost:3333/auth/register \
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -d <span class="hljs-string">&quot;{\&quot;email\&quot;:\&quot;<span class="hljs-variable">$EMAIL</span>\&quot;,\&quot;password\&quot;:\&quot;<span class="hljs-variable">$PASSWORD</span>\&quot;}&quot;</span>)
+
+TOKEN=$(node -e <span class="hljs-string">&quot;const data=JSON.parse(process.argv[1]); process.stdout.write(data.token)&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$REGISTER</span>&quot;</span>)
+
+curl -i http://localhost:3333/auth/me -H <span class="hljs-string">&quot;Authorization: Bearer <span class="hljs-variable">$TOKEN</span>&quot;</span>
+curl -i -X POST http://localhost:3333/chat \
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -H <span class="hljs-string">&quot;Authorization: Bearer <span class="hljs-variable">$TOKEN</span>&quot;</span> \
+  -d <span class="hljs-string">&quot;{\&quot;prompt\&quot;:\&quot;Preciso de um plano para estudar backend\&quot;}&quot;</span>
+curl -i http://localhost:3333/chat/history -H <span class="hljs-string">&quot;Authorization: Bearer <span class="hljs-variable">$TOKEN</span>&quot;</span>
+curl -i http://localhost:3333/stats -H <span class="hljs-string">&quot;Authorization: Bearer <span class="hljs-variable">$TOKEN</span>&quot;</span>
+</code></pre>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="erro-failed-to-fetch">Erro <code>Failed to fetch</code></h3>
+<ol>
+<li>Verifique se backend está rodando na porta <code>3333</code>.</li>
+<li>Verifique <code>frontend/.env</code> (<code>VITE_API_URL</code>).</li>
+<li>Verifique <code>backend/.env</code> (<code>CORS_ORIGIN</code>).</li>
+<li>Se estiver acessando por IP local, reinicie frontend/backend para recarregar envs.</li>
+</ol>
+<h3 id="porta-em-uso-no-backend">Porta em uso no backend</h3>
+<pre><code class="language-bash">fuser -k 3333/tcp
+</code></pre>
+<h3 id="banco-desatualizado">Banco desatualizado</h3>
+<pre><code class="language-bash"><span class="hljs-built_in">cd</span> backend
+npm run prisma:generate
+npm run prisma:migrate
+</code></pre>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
